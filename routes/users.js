@@ -31,9 +31,13 @@ router.post('/', async (req, res) => {
 
 router.put('/:id', async (req, res) => {
   const allUserProperties = Object.keys(User.schema.paths);
-  const unsetProperty = allUserProperties.find(path => path.charAt(0) !== '_' && !req.body.hasOwnProperty(path))
+
+  // check if all required properties of user are set
+  const unsetProperty = allUserProperties.find(
+    path => path.charAt(0) !== '_' && !req.body.hasOwnProperty(path));
+
   if (unsetProperty) {
-    return res.status(400).json({ message: `${unsetProperty} must be specified`})
+    return res.status(400).json({ message: `${unsetProperty} must be specified`});
   }
 
   try {
